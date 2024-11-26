@@ -1059,7 +1059,7 @@ epochs = 10
 
 # ADD YOUR CODE HERE
 # change the directory name with your SAPname and SRno
-SAPname_SRno = 'PATEL_YASHKUMAR_JAGDISHBHAI_22759'
+SAPname_SRno = 'Chinmayjain_23006'
 model_dir = SAPname_SRno
 
 import shutil;
@@ -1166,7 +1166,7 @@ word_embeddings = model.get_word_embedding()
 # change the directory name with your SAPname and SRno
 
 # Save the embeddings to the folder
-np.save('/content/PATEL_YASHKUMAR_JAGDISHBHAI_22759/word_embeddings.npy', word_embeddings)
+np.save('/content/Chinmayjain_23006/word_embeddings.npy', word_embeddings)
 
 """Once the embeddings are trained, we can use a few words to evaluate some desirable properties of word representations.
 
@@ -1190,7 +1190,7 @@ def get_word_similarity(words):
   # ADD YOUR CODE HERE
 
   # you'll have to compute the similarity matrix for the words given above
-  word_embeddings = np.load('/content/PATEL_YASHKUMAR_JAGDISHBHAI_22759/word_embeddings.npy')
+  word_embeddings = np.load('/content/Chinmayjain_23006/word_embeddings.npy')
 
   word_indices = [vocab[word] for word in words]
   word2vec = word_embeddings[word_indices]
