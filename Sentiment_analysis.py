@@ -37,9 +37,7 @@ import pandas as pd
 df = pd.read_csv('train_data.csv')
 df_val = pd.read_csv('val_data.csv')
 
-# Note that we will change the test file
-# when we grade assignments  ...
-# For now it is the same as the validation set
+
 df_test = pd.read_csv('test_data.csv')
 
 df.head()
@@ -182,7 +180,7 @@ print (calculate_accuracy(y_test, predictions))
 
 """As you can observe here, the model achieves about 60% accuracy (note that the performance of a random classifier would be close to 50%).
 
-### Build your own rule-based classifier (10 marks)
+### Build rule-based classifier 
 
 Your have to write your own `extract_features`, `get_feature_weights` and `predict` functions for your rule-based classifier.
 """
@@ -205,7 +203,7 @@ def extract_features(X):
     features = {}
     features['bias'] = 1
 
-    # ADD YOUR CODE HERE
+    
     cleaned_text = clean_text(X)
     cleaned_text = cleaned_text.lower()
 
@@ -314,7 +312,7 @@ def extract_features(X):
     features['negation_count'] = token_list.count('not')
     features['intensifier_count'] = sum(1 for word in token_list if word in intensifiers)
 
-    # please extract features that you think would be useful.
+    
 
     return features
 
@@ -332,8 +330,7 @@ def get_feature_weights():
     feature_weights = {}
     feature_weights['bias'] = 0.5
 
-    # ADD YOUR CODE HERE
-    # please manually assign feature weights to the features you've extracted
+    
     feature_weights = {
         'positive_word_count': 0.65,
         'negative_word_count': -1.25,
@@ -356,7 +353,7 @@ def predict(X, feature_weights):
         int: binary sentiment represented by 0/1.
     """
 
-    # ADD YOUR CODE HERE
+    
     # Initialize the score
     score = 0
 
@@ -372,7 +369,7 @@ def predict(X, feature_weights):
 
 #@title Evaluating your rule-based classifier
 
-## Please do not change anything in this code block.
+
 
 feature_weights = get_feature_weights()
 
@@ -384,11 +381,7 @@ for input_example in X_test:
 
 print (f"EVALUATION of rule-based classifier is: {calculate_accuracy(y_test, predictions)}")
 
-"""You will be evaluated based on the performance of your rule-based classifier. Please note that the sample rule-based classifier achieves about 60% accuracy. Anything below 60% will not yield any points.
-
-***Please do not change the evaluation code in the block above, as it would be used to grade your classifier***.
-
-Below, we will directly learn the feature weights, rather than manually assigning those ourselves as manual assignment can be error-prone and labor intensive.
+"""Below, we will directly learn the feature weights, rather than manually assigning those ourselves as manual assignment can be error-prone and labor intensive.
 """
 
 #@title Learning the weights of extracted features using logistic regression.
@@ -461,15 +454,13 @@ print (calculate_accuracy(y_test, predictions))
 
 """As you can observe here, the model achieves about 63% accuracy (note that the performance of a random classifier would be close to 50%). Note that, the performance significantly improves by making the weights learnable as compared to the manual weights.
 
-## How does learnable weights-based classifier work on the features you implemented (3 marks)
 
-Your don't have to write anything here except simply running the below kernel.
-Depending upon the quality of your features, your classifier performance will vary.
+
 """
 
 #@title Evaluating your rule-based classifier with learnable weights.
 
-## Please do not change anything in this code block.
+
 feature_weights_lr = get_sample_learnable_weights(X_train, y_train, extract_features)
 
 predictions = []
@@ -517,7 +508,7 @@ ax.set_ylim(-2, 2)
 plt.savefig('manual_vs_learned_weights.png')
 # Refer to the saved manual_vs_learned_weights.png to see how manual and learned weights compare.
 
-"""### Approach 2: Bag-of-Words (BoW) (10 marks)
+"""### Approach 2: Bag-of-Words (BoW) 
 
 The BoW vector representations is based on the unordered counts of words piece of text (similar to a "bag" of words).
 
@@ -548,7 +539,7 @@ def word_to_idx_BOW(X_data, K=10000):
             dictionary: words as keys and indices as values.
     """
     word_to_idx = {}
-    # ADD YOUR CODE HERE
+    
     all_tokens = []
 
     for text_data in X_data:
@@ -603,7 +594,7 @@ def extract_features_BoW(X, word_to_idx):
             dictionary: features of X.
     """
     features = {}
-    # ADD YOUR CODE HERE
+    
     words = X.split()
 
     features = {idx: 0 for idx in word_to_idx.values()}
@@ -650,7 +641,7 @@ def get_learnable_weights_BoW(X_data, Y_data, word_to_idx_BOW, extract_features_
             dictionary: feature names and their learned weights.
     """
 
-    # ADD YOUR CODE HERE
+    
     word_to_idx = word_to_idx_BOW(X_data)
 
     # Create a CountVectorizer using the word to index mapping
@@ -682,7 +673,7 @@ def predict(X, feature_weights, word_to_idx):
     Returns:
         int: binary sentiment represented by 0/1.
     """
-    # ADD YOUR CODE HERE
+    
     features = extract_features_BoW(X, word_to_idx)
     score = sum(feature_weights.get(idx, 0) * count for idx, count in features.items())
     return 1 if score > 0 else 0
@@ -700,7 +691,7 @@ for input_example in X_test:
 
 print (f"EVALUATION of BoW classifier is: {calculate_accuracy(y_test, predictions)}")
 
-"""## Finding most positive and most negative words (2 Marks)
+"""## Finding most positive and most negative words 
 
 Based on the magnitude of weights corresponding to different words, write down code to find the 5 most positive words and 5 most negative words.
 """
@@ -730,7 +721,7 @@ assert (len(most_negative_words) == 20)
 print("EVALUATION five most positive words: " + " ".join(most_positive_words))
 print("EVALUATION five most negative words: " + " ".join(most_negative_words))
 
-"""## Part II Word2Vec (TA: Nicy Scaria)  (25 Marks)
+"""## Part II Word2Vec  
 
 Word2vec is one of the most popular techniques to learn word embeddings. The idea behind word2vec was that the meaning of a word is determined by the context in which it occurs. A word embedding is a learned representation for text where words that have the same meaning have a similar representation.
 
@@ -776,11 +767,9 @@ import argparse
 
 """choose your hyperparameter and see the difference in performance"""
 
-# ADD YOUR CODE HERE
 
-# CHANGE THE None VALUES TO YOUR DESIRED VALUES
-# Please free to play with these hyperparameters to see the effects on the
-# quality of generated embeddings
+
+
 
 
 SKIPGRAM_N_WORDS = 2 # the length of the context on each side (k)
@@ -919,7 +908,7 @@ class SkipGram_Model(nn.Module):
         """define the embedding and the linear layer of the network"""
         # this is the initialization for the layers in the skipgram model
 
-        # ADD YOUR CODE HERE
+        
         # an embedding layer which responsible for map each word to a dense vector
         self.embeddings = nn.Embedding(vocab_size, EMBED_DIMENSION, max_norm=EMBED_MAX_NORM)
         self.linear = nn.Linear(EMBED_DIMENSION, vocab_size)
@@ -927,7 +916,7 @@ class SkipGram_Model(nn.Module):
 
     def forward(self, inputs_):
         """define forward function"""
-        # ADD YOUR CODE HERE
+        
         embeds = self.embeddings(inputs_)
         output = self.linear(embeds)
 
@@ -936,7 +925,7 @@ class SkipGram_Model(nn.Module):
     def get_word_embedding(self):
         """ return the associated word embeddings for center words """
 
-        # ADD YOUR CODE HERE
+        
         embedding_weights = self.embeddings.weight.cpu().data.numpy()
         norm_embeddings = embedding_weights / np.linalg.norm(embedding_weights, axis=1, keepdims=True)
         # return the normalized embeddings as a 2D numpy array (in word2vec models,
@@ -945,7 +934,7 @@ class SkipGram_Model(nn.Module):
 
         return norm_embeddings
 
-"""> **The following is the Trainer class for the skip-gram model. Add your code for the `training` and `validation` loops.**"""
+"""> **The following is the Trainer class for the skip-gram model.**"""
 
 class Trainer:
     """Main class for model training"""
@@ -980,7 +969,7 @@ class Trainer:
         self.loss = {"train": [], "val": []}
         self.model.to(self.device)
 
-    # ADD YOUR CODE HERE FOR TRAINING & VALIDATION
+    
     # This implementation need not include negative sampling.
 
     # NOTE: you can add additional functions to make training better
@@ -1042,8 +1031,8 @@ class Trainer:
 
 """> **The following code block defines the various parameters and nomenclature for the training and saving of the skip-gram model. Add numerical values for the `specified hyperparameters`.**"""
 
-# ADD YOUR CODE HERE
-# CHANGE THE None VALUES TO YOUR DESIRED VALUES
+
+
 
 model_name = 'skipgram'
 
@@ -1057,8 +1046,6 @@ optimizer = 'adam'
 learning_rate = 0.001
 epochs = 10
 
-# ADD YOUR CODE HERE
-# change the directory name with your SAPname and SRno
 SAPname_SRno = 'Chinmayjain_23006'
 model_dir = SAPname_SRno
 
@@ -1095,21 +1082,12 @@ print(f"Vocabulary size: {vocab_size}")
 model_class = SkipGram_Model
 model = model_class(vocab_size=vocab_size)
 
-# ADD YOUR CODE HERE
-# You'll have to specify the loss criterion
-# Your loss function would depend upon whether you
-# choose to train with negative sampling or not
-# either of the two are valid choices
 
 criterion = nn.CrossEntropyLoss()
 
-# ADD YOUR CODE HERE
-# You'll have to specify the optimizer here
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# NOTE: if you are **optionally** using additional options for the trainer
-# (e.g., a training scheduler), please add them below.
 
 
 trainer = Trainer(
@@ -1150,8 +1128,6 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
-# ADD YOUR CODE HERE
-# change the directory name with your SAPname and SRno
 
 folder = SAPname_SRno
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -1161,9 +1137,6 @@ model = torch.load(f"{folder}/model.pt", map_location=device)
 vocab = torch.load(f"{folder}/vocab.pt")
 
 word_embeddings = model.get_word_embedding()
-
-# ADD YOUR CODE HERE
-# change the directory name with your SAPname and SRno
 
 # Save the embeddings to the folder
 np.save('/content/Chinmayjain_23006/word_embeddings.npy', word_embeddings)
@@ -1187,7 +1160,6 @@ def get_word_similarity(words):
   w2v_similarity[i][j] should contain the similarity of word i with word j
 
   """
-  # ADD YOUR CODE HERE
 
   # you'll have to compute the similarity matrix for the words given above
   word_embeddings = np.load('/content/Chinmayjain_23006/word_embeddings.npy')
@@ -1298,7 +1270,7 @@ for word_id in top5_analogy:
 """The model performance will be evaluated based on an analogy output for the top 5 words. The following code will used to evaluate the performance of the model on the analogies dataset. We will measure how often the correct answer is a part of the top 5 options."""
 
 # Downloading the file containing a few analogies.
-# We will change the contents of this file while testing.
+
 
 # wget -O analogies.txt "https://drive.google.com/uc?export=download&id=1jHx25dECegjtRKBB587nEfHiJesrH0g2"
 
@@ -1424,7 +1396,6 @@ def get_word_similarity(words):
   given above w2v_similarity[i][j] should contain the similarity of word i with j
 
   """
-  # ADD YOUR CODE HERE
 
   # you'll have to compute the similarity matrix for the words given above
 
