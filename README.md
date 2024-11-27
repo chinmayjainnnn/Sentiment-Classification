@@ -70,18 +70,4 @@ pip install numpy pandas matplotlib seaborn scikit-learn gensim torch torchtext 
 - **Word Similarity**: Assesses semantic proximity between words using cosine similarity.
 - **Analogy Precision**: Tests embedding performance on analogy tasks, comparing the top 5 predictions.
 
-## How to Run
-
-
-1. **Download Dataset**:
-    Follow the dataset download instructions above.
-
-2. **Run the file to explore:**:
-    - Rule-based models
-    - Bag-of-Words classification
-    - Word embeddings via Word2Vec
-
-4. **Evaluate Results**:
-    Review accuracy metrics, word similarity plots, and analogy test outcomes.
-
 ---
